@@ -88,9 +88,7 @@ class MediaControl extends BorderPane {
             }
         });
 
-        mp.setOnPaused(() -> {
-            playButton.setText(">");
-        });
+        mp.setOnPaused(() -> playButton.setText(">"));
 
         mp.setOnReady(() -> {
             duration = mp.getMedia().getDuration();
@@ -99,7 +97,8 @@ class MediaControl extends BorderPane {
             stage.setWidth(mediaWidth + 14);
             stage.setHeight(mediaHeight + 72);
             updateValues();
-            System.out.println("Width = " + mediaWidth + ", Height = " + mediaHeight + ", Time = " + media.getDuration().toSeconds() + ", Path = " + media.getSource());
+            System.out.println("\nWidth = " + mediaWidth + ", Height = " + mediaHeight +
+                    ", Time = " + media.getDuration().toSeconds() + ", Path = " + media.getSource());
         });
 
         mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
@@ -143,9 +142,9 @@ class MediaControl extends BorderPane {
             rectangle.setWidth(0);
             rectangle.setHeight(0);
         });
-        mediaView.setOnMouseReleased(event -> {
-            System.out.println("x = " + (int) rectangle.getX() + ", y = " + (int) rectangle.getY() + ", width = " + (int) rectangle.getWidth() + ", height = " + (int) rectangle.getHeight());
-        });
+        mediaView.setOnMouseReleased(event -> System.out.println("x = " + (int) rectangle.getX() +
+                ", y = " + (int) rectangle.getY() + ", width = " + (int) rectangle.getWidth() +
+                ", height = " + (int) rectangle.getHeight()));
         mediaView.setOnMouseDragged(event -> {
             if (event.getX() > x.get()) {
                 rectangle.setX(x.get());
@@ -200,8 +199,10 @@ class MediaControl extends BorderPane {
                 Duration currentTime = mp.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
-                if (!timeSlider.isDisabled() && duration.greaterThan(Duration.ZERO) && !timeSlider.isValueChanging()) {
-                    timeSlider.setValue(currentTime.divide(duration).toMillis() * 100.0);
+                if (!timeSlider.isDisabled()
+                        && duration.greaterThan(Duration.ZERO)
+                        && !timeSlider.isValueChanging()) {
+                    timeSlider.setValue(currentTime.divide(duration.toSeconds()).toMillis() / 10);
                 }
             });
         }
