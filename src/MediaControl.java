@@ -32,8 +32,7 @@ class MediaControl extends BorderPane {
         setStyle("-fx-background-color: #bfc2c7;");
         MediaView mediaView = new MediaView(mp);
         mediaView.setPreserveRatio(true);
-        Pane mvPane = new Pane() {
-        };
+        Pane mvPane = new Pane();
         mvPane.getChildren().add(mediaView);
         mvPane.setStyle("-fx-background-color: black;");
         setCenter(mvPane);
@@ -53,9 +52,7 @@ class MediaControl extends BorderPane {
                 return;
             }
 
-            if (status == Status.PAUSED
-                    || status == Status.READY
-                    || status == Status.STOPPED) {
+            if (status == Status.PAUSED || status == Status.READY || status == Status.STOPPED) {
                 // rewind the movie if we're sitting at the end
                 if (atEndOfMedia) {
                     mp.seek(mp.getStartTime());
@@ -99,10 +96,8 @@ class MediaControl extends BorderPane {
             duration = mp.getMedia().getDuration();
             mediaWidth = media.getWidth();
             mediaHeight = media.getHeight();
-            stage.setWidth(media.getWidth());
-            stage.setHeight(media.getHeight() + 71.8);
-            System.out.println(stage.getHeight());
-            System.out.println(mvPane.getHeight());
+            stage.setWidth(mediaWidth + 14);
+            stage.setHeight(mediaHeight + 72);
             updateValues();
         });
 
@@ -123,7 +118,6 @@ class MediaControl extends BorderPane {
         // Add time slider
         timeSlider = new Slider();
         HBox.setHgrow(timeSlider, Priority.ALWAYS);
-        timeSlider.setMinWidth(50);
         timeSlider.setMaxWidth(Double.MAX_VALUE);
         timeSlider.valueProperty().addListener(ov -> {
             if (timeSlider.isValueChanging()) {
@@ -135,8 +129,7 @@ class MediaControl extends BorderPane {
 
         // Add Play label
         playTime = new Label();
-        playTime.setPrefWidth(65);
-        playTime.setMinWidth(50);
+        playTime.setMinWidth(65);
         mediaBar.getChildren().add(playTime);
 
         setBottom(mediaBar);
@@ -146,10 +139,11 @@ class MediaControl extends BorderPane {
         mediaView.setOnMousePressed(event -> {
             x.set(event.getX());
             y.set(event.getY());
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
         });
         mediaView.setOnMouseReleased(event -> {
             System.out.println("x = " + (int) rectangle.getX() + ", y = " + (int) rectangle.getY() + ", width = " + (int) rectangle.getWidth() + ", height = " + (int) rectangle.getHeight());
-            System.out.println(rectangle.getY() + rectangle.getHeight());
         });
         mediaView.setOnMouseDragged(event -> {
             if (event.getX() > x.get()) {
@@ -205,9 +199,7 @@ class MediaControl extends BorderPane {
                 Duration currentTime = mp.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
-                if (!timeSlider.isDisabled()
-                        && duration.greaterThan(Duration.ZERO)
-                        && !timeSlider.isValueChanging()) {
+                if (!timeSlider.isDisabled() && duration.greaterThan(Duration.ZERO) && !timeSlider.isValueChanging()) {
                     timeSlider.setValue(currentTime.divide(duration).toMillis() * 100.0);
                 }
             });
