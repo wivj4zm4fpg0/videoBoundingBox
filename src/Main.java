@@ -9,14 +9,14 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static final String MEDIA_URL =
-            "file:///C:/Users/智/Documents/shoplifting/HsaTjpESyDU.mp4";
+    private static String MEDIA_URL;
 
-    static Media media = new Media(MEDIA_URL);
-    static Rectangle rectangle = new Rectangle(0, 0);
+    private Rectangle rectangle = new Rectangle(0, 0);
 
     @Override
     public void start(Stage primaryStage) {
+
+        Media media = new Media(MEDIA_URL);
 
         rectangle.setFill(null);
         rectangle.setStroke(Color.RED);
@@ -31,17 +31,17 @@ public class Main extends Application {
         mediaPlayer.setOnReady(primaryStage::sizeToScene);
         mediaPlayer.setAutoPlay(true);
 
-        MediaControl mediaControl = new MediaControl(mediaPlayer);
+        MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle);
         scene.setRoot(mediaControl);
         mediaControl.getChildren().add(rectangle);
 
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {
+        MEDIA_URL = args[0];
         launch(args);
     }
 }

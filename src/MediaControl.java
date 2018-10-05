@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
@@ -26,7 +27,7 @@ class MediaControl extends BorderPane {
     private double mediaWidth;
     private double mediaHeight;
 
-    MediaControl(final MediaPlayer mp) {
+    MediaControl(final MediaPlayer mp, Media media, Rectangle rectangle) {
         this.mp = mp;
         setStyle("-fx-background-color: #bfc2c7;");
         MediaView mediaView = new MediaView(mp);
@@ -97,8 +98,8 @@ class MediaControl extends BorderPane {
 
         mp.setOnReady(() -> {
             duration = mp.getMedia().getDuration();
-            mediaWidth = Main.media.getWidth();
-            mediaHeight = Main.media.getHeight();
+            mediaWidth = media.getWidth();
+            mediaHeight = media.getHeight();
             updateValues();
         });
 
@@ -157,7 +158,6 @@ class MediaControl extends BorderPane {
 
         setBottom(mediaBar);
 
-        Rectangle rectangle = Main.rectangle;
         AtomicReference<Double> x = new AtomicReference<>((double) 0);
         AtomicReference<Double> y = new AtomicReference<>((double) 0);
         mediaView.setOnMousePressed(event -> {
