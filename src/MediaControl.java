@@ -10,6 +10,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.concurrent.atomic.AtomicReference;
@@ -23,11 +24,10 @@ class MediaControl extends BorderPane {
     private Duration duration;
     private Slider timeSlider;
     private Label playTime;
-    private Slider volumeSlider;
     private double mediaWidth;
     private double mediaHeight;
 
-    MediaControl(final MediaPlayer mp, Media media, Rectangle rectangle) {
+    MediaControl(final MediaPlayer mp, Media media, Rectangle rectangle, Stage stage) {
         this.mp = mp;
         setStyle("-fx-background-color: #bfc2c7;");
         MediaView mediaView = new MediaView(mp);
@@ -99,6 +99,10 @@ class MediaControl extends BorderPane {
             duration = mp.getMedia().getDuration();
             mediaWidth = media.getWidth();
             mediaHeight = media.getHeight();
+            stage.setWidth(media.getWidth());
+            stage.setHeight(media.getHeight() + 71.8);
+            System.out.println(stage.getHeight());
+            System.out.println(mvPane.getHeight());
             updateValues();
         });
 
@@ -113,12 +117,8 @@ class MediaControl extends BorderPane {
 
         mediaBar.getChildren().add(playButton);
         // Add spacer
-        Label spacer = new Label("   ");
+        Label spacer = new Label(" ");
         mediaBar.getChildren().add(spacer);
-
-        // Add Time label
-        Label timeLabel = new Label("Time: ");
-        mediaBar.getChildren().add(timeLabel);
 
         // Add time slider
         timeSlider = new Slider();
@@ -135,25 +135,9 @@ class MediaControl extends BorderPane {
 
         // Add Play label
         playTime = new Label();
-        playTime.setPrefWidth(130);
+        playTime.setPrefWidth(65);
         playTime.setMinWidth(50);
         mediaBar.getChildren().add(playTime);
-
-        // Add the volume label
-        Label volumeLabel = new Label("Vol: ");
-        mediaBar.getChildren().add(volumeLabel);
-
-        // Add Volume slider
-        volumeSlider = new Slider();
-        volumeSlider.setPrefWidth(70);
-        volumeSlider.setMaxWidth(Region.USE_PREF_SIZE);
-        volumeSlider.setMinWidth(30);
-        volumeSlider.valueProperty().addListener(ov -> {
-            if (volumeSlider.isValueChanging()) {
-                mp.setVolume(volumeSlider.getValue() / 100.0);
-            }
-        });
-        mediaBar.getChildren().add(volumeSlider);
 
         setBottom(mediaBar);
 
@@ -163,7 +147,10 @@ class MediaControl extends BorderPane {
             x.set(event.getX());
             y.set(event.getY());
         });
-        mediaView.setOnMouseReleased(event -> System.out.println("x = " + (int) rectangle.getX() + ", y = " + (int) rectangle.getY() + ", width = " + (int) rectangle.getWidth() + ", height = " + (int) rectangle.getHeight()));
+        mediaView.setOnMouseReleased(event -> {
+            System.out.println("x = " + (int) rectangle.getX() + ", y = " + (int) rectangle.getY() + ", width = " + (int) rectangle.getWidth() + ", height = " + (int) rectangle.getHeight());
+            System.out.println(rectangle.getY() + rectangle.getHeight());
+        });
         mediaView.setOnMouseDragged(event -> {
             if (event.getX() > x.get()) {
                 rectangle.setX(x.get());
@@ -213,7 +200,7 @@ class MediaControl extends BorderPane {
     }
 
     private void updateValues() {
-        if (playTime != null && timeSlider != null && volumeSlider != null) {
+        if (playTime != null && timeSlider != null) {
             Platform.runLater(() -> {
                 Duration currentTime = mp.getCurrentTime();
                 playTime.setText(formatTime(currentTime, duration));
@@ -222,9 +209,6 @@ class MediaControl extends BorderPane {
                         && duration.greaterThan(Duration.ZERO)
                         && !timeSlider.isValueChanging()) {
                     timeSlider.setValue(currentTime.divide(duration).toMillis() * 100.0);
-                }
-                if (!volumeSlider.isValueChanging()) {
-                    volumeSlider.setValue((int) Math.round(mp.getVolume() * 100));
                 }
             });
         }

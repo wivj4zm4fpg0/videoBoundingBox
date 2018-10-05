@@ -23,14 +23,14 @@ public class Main extends Application {
 
         primaryStage.setTitle("Video Player");
         Group root = new Group();
-        Scene scene = new Scene(root, 640, 480 + 35);
+        Scene scene = new Scene(root);
 
         // create media player
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setOnReady(primaryStage::sizeToScene);
         mediaPlayer.setAutoPlay(true);
 
-        MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle);
+        MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle, primaryStage);
         scene.setRoot(mediaControl);
         mediaControl.getChildren().add(rectangle);
 
