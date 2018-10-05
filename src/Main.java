@@ -40,7 +40,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        MEDIA_URL = args[0];
+        MEDIA_URL = "file:///" + System.getProperty("user.dir").replace('\\', '/') + "/" + args[0];
         launch(args);
     }
 }
