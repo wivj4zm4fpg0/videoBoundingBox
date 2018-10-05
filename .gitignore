@@ -1,5 +1,7 @@
 *
-!src/
+!src
 !src/*
 !.gitignore
 !README.md
+!windows
+!windows/*
