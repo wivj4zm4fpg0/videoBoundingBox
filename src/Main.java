@@ -11,12 +11,11 @@ public class Main extends Application {
 
     private static String MEDIA_URL;
 
-    private Rectangle rectangle = new Rectangle(0, 0);
-
     @Override
     public void start(Stage primaryStage) {
 
         Media media = new Media(MEDIA_URL);
+        Rectangle rectangle = new Rectangle(0, 0);
 
         rectangle.setFill(null);
         rectangle.setStroke(Color.RED);
