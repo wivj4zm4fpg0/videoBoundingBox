@@ -1,46 +1,77 @@
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private static String MEDIA_URL;
-
     @Override
     public void start(Stage primaryStage) {
 
-        Media media = new Media(MEDIA_URL);
         Rectangle rectangle = new Rectangle(0, 0);
-
         rectangle.setFill(null);
         rectangle.setStroke(Color.RED);
         rectangle.setStrokeWidth(1);
 
-        primaryStage.setTitle("Video Player");
-        Group root = new Group();
-        Scene scene = new Scene(root);
+        Pane root = new Pane();
+        Scene scene = new Scene(root, 320, 240);
 
-        // create media player
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setOnReady(primaryStage::sizeToScene);
-        mediaPlayer.setAutoPlay(true);
+        root.getChildren().add(new Rectangle(320, 240, Color.WHITE));
+        Label label = new Label("Please drag and drop the video");
+        label.setFont(new Font("Arial", 20));
+        label.setLayoutX(20);
+        label.setLayoutY(100);
+        root.getChildren().add(label);
 
-        MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle, primaryStage);
-        scene.setRoot(mediaControl);
-        mediaControl.getChildren().add(rectangle);
+        root.setOnDragOver(event -> {
+            Dragboard board = event.getDragboard();
+            if (board.hasFiles()) {
+                event.acceptTransferModes(TransferMode.MOVE);
+            }
+        });
 
+        root.setOnDragDropped(event -> {
+            Dragboard board = event.getDragboard();
+            if (board.hasFiles()) {
+                board.getFiles().forEach(file -> {
+                    // reset
+                    root.getChildren().removeAll();
+                    rectangle.setX(0);
+                    rectangle.setY(0);
+                    rectangle.setHeight(0);
+                    rectangle.setWidth(0);
+
+                    // create media player
+                    Media media = new Media("file:///" + file.getAbsolutePath().replace('\\', '/'));
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    mediaPlayer.setOnReady(primaryStage::sizeToScene);
+                    mediaPlayer.setAutoPlay(true);
+                    MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle, primaryStage);
+
+                    mediaControl.getChildren().add(rectangle);
+                    root.getChildren().add(mediaControl);
+                });
+                event.setDropCompleted(true);
+            } else {
+                event.setDropCompleted(false);
+            }
+        });
+
+        primaryStage.setTitle("BoundingBoxVideo");
         primaryStage.setScene(scene);
-        primaryStage.sizeToScene();
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        MEDIA_URL = "file:///" + System.getProperty("user.dir").replace('\\', '/') + "/" + args[0];
         launch(args);
     }
 }
