@@ -155,40 +155,25 @@ class MediaControl extends BorderPane {
             }
             if (event.getY() > y.get()) {
                 rectangle.setY(y.get());
-                rectangle.setHeight(rectangle.getWidth() * 3 / 4);
+                rectangle.setHeight(event.getY() - rectangle.getY());
             } else {
-                rectangle.setY(y.get() - rectangle.getWidth() * 3 / 4);
-                rectangle.setHeight(rectangle.getWidth() * 3 / 4);
+                rectangle.setY(event.getY());
+                rectangle.setHeight(y.get() - event.getY());
             }
+
             if (rectangle.getY() + rectangle.getHeight() > mvPane.getHeight()) {
                 rectangle.setHeight(mvPane.getHeight() - rectangle.getY());
-                rectangle.setWidth(rectangle.getHeight() * 4 / 3);
-                if (event.getX() < x.get()) {
-                    rectangle.setX(x.get() - rectangle.getWidth());
-                }
             }
             if (rectangle.getY() < 0) {
                 rectangle.setY(0);
                 rectangle.setHeight(y.get());
-                rectangle.setWidth(rectangle.getHeight() * 4 / 3);
-                if (event.getX() < x.get()) {
-                    rectangle.setX(x.get() - rectangle.getWidth());
-                }
             }
             if (rectangle.getX() + rectangle.getWidth() > mvPane.getWidth()) {
                 rectangle.setWidth(mvPane.getWidth() - rectangle.getX());
-                rectangle.setHeight(rectangle.getWidth() * 3 / 4);
-                if (event.getY() < y.get()) {
-                    rectangle.setY(y.get() - rectangle.getHeight());
-                }
             }
             if (rectangle.getX() < 0) {
                 rectangle.setX(0);
                 rectangle.setWidth(x.get());
-                rectangle.setHeight(rectangle.getWidth() * 3 / 4);
-                if (event.getY() < y.get()) {
-                    rectangle.setY(y.get() - rectangle.getHeight());
-                }
             }
         });
     }
@@ -215,8 +200,7 @@ class MediaControl extends BorderPane {
             intElapsed -= elapsedHours * 60 * 60;
         }
         int elapsedMinutes = intElapsed / 60;
-        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
-                - elapsedMinutes * 60;
+        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60 - elapsedMinutes * 60;
 
         if (duration.greaterThan(Duration.ZERO)) {
             int intDuration = (int) Math.floor(duration.toSeconds());
