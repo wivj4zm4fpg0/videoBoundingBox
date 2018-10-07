@@ -16,10 +16,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Rectangle rectangle = new Rectangle(0, 0);
-        rectangle.setFill(null);
-        rectangle.setStroke(Color.RED);
-        rectangle.setStrokeWidth(1);
+        SelectBox selectBox = new SelectBox();
 
         Pane root = new Pane();
         Scene scene = new Scene(root, 320, 240);
@@ -44,19 +41,18 @@ public class Main extends Application {
                 board.getFiles().forEach(file -> {
                     // reset
                     root.getChildren().removeAll();
-                    rectangle.setX(0);
-                    rectangle.setY(0);
-                    rectangle.setHeight(0);
-                    rectangle.setWidth(0);
-
+                    selectBox.resetRect();
                     // create media player
                     Media media = new Media("file:///" + file.getAbsolutePath().replace('\\', '/'));
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
                     mediaPlayer.setOnReady(primaryStage::sizeToScene);
                     mediaPlayer.setAutoPlay(true);
-                    MediaControl mediaControl = new MediaControl(mediaPlayer, media, rectangle, primaryStage);
+                    MediaControl mediaControl = new MediaControl(mediaPlayer, media, primaryStage, selectBox);
 
-                    mediaControl.getChildren().add(rectangle);
+                    mediaControl.getChildren().add(selectBox.getRectangle());
+                    for (int i = 0; i < selectBox.getEllipse().length; i++) {
+                        mediaControl.getChildren().add(selectBox.getEllipse()[i]);
+                    }
                     root.getChildren().add(mediaControl);
                 });
                 event.setDropCompleted(true);
