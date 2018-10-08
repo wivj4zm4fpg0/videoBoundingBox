@@ -155,20 +155,38 @@ class MediaControl extends BorderPane {
                 }
             }
         });
+
         Ellipse[] ellipse = selectBox.getEllipse();
+        Ellipse[] centerEllipse = selectBox.getCenterEllipse();
         for (int i = 0; i < ellipse.length; i++) {
             int finalI = i;
             ellipse[i].setOnMouseEntered(event -> {
-                selectBox.setIsInsideEllipse(finalI, true);
-                selectBox.setEllipseFill(finalI, Color.AQUA);
+                selectBox.setIsInsideEllipse(finalI, true, 0);
+                selectBox.setEllipseFill(finalI, Color.AQUA, 0);
             });
             ellipse[i].setOnMouseExited(event -> {
-                selectBox.setIsInsideEllipse(finalI, false);
-                selectBox.setEllipseFill(finalI, Color.WHITE);
+                selectBox.setIsInsideEllipse(finalI, false, 0);
+                selectBox.setEllipseFill(finalI, Color.WHITE, 0);
             });
             ellipse[i].setOnMousePressed(event -> selectBox.setPosition(ellipse[3 - finalI].getCenterX(), ellipse[3 - finalI].getCenterY()));
             ellipse[i].setOnMouseDragged(event -> selectBox.setSize(event.getX(), event.getY()));
             ellipse[i].setOnMouseReleased(event -> selectBox.print());
+
+            centerEllipse[i].setOnMouseEntered(event -> {
+                selectBox.setIsInsideEllipse(finalI, true, 1);
+                selectBox.setEllipseFill(finalI, Color.AQUA, 1);
+            });
+            centerEllipse[i].setOnMouseExited(event -> {
+                selectBox.setIsInsideEllipse(finalI, false, 1);
+                selectBox.setEllipseFill(finalI, Color.WHITE, 1);
+            });
+            centerEllipse[i].setOnMousePressed(event -> selectBox.setPosition(centerEllipse[(finalI + 2) % 4].getCenterX(), centerEllipse[(finalI + 2) % 4].getCenterY()));
+            centerEllipse[i].setOnMouseReleased(event -> selectBox.print());
+            if (finalI % 2 == 0) {
+                centerEllipse[i].setOnMouseDragged(event -> selectBox.setSize(-1, event.getY()));
+            } else {
+                centerEllipse[i].setOnMouseDragged(event -> selectBox.setSize(event.getX(), -1));
+            }
         }
     }
 

@@ -52,6 +52,7 @@ public class Main extends Application {
                     mediaControl.getChildren().add(selectBox.getRectangle());
                     for (int i = 0; i < selectBox.getEllipse().length; i++) {
                         mediaControl.getChildren().add(selectBox.getEllipse()[i]);
+                        mediaControl.getChildren().add(selectBox.getCenterEllipse()[i]);
                     }
                     root.getChildren().add(mediaControl);
                 });
