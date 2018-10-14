@@ -52,18 +52,17 @@ public class Main extends Application {
                         switch (keyEvent.getCode().toString()) {
                             case "U":
                                 mediaPlayer.setRate(mediaPlayer.getRate() + 0.5);
+                                System.out.println("speed = " + mediaPlayer.getRate());
                                 break;
                             case "D":
                                 mediaPlayer.setRate(mediaPlayer.getRate() - 0.5);
+                                System.out.println("speed = " + mediaPlayer.getRate());
                         }
-                        System.out.println("change fps = " + mediaPlayer.getRate());
                     });
 
                     mediaControl.getChildren().add(selectBox.getRectangle());
-                    for (int i = 0; i < selectBox.getEllipse().length; i++) {
-                        mediaControl.getChildren().add(selectBox.getEllipse()[i]);
-                        mediaControl.getChildren().add(selectBox.getCenterEllipse()[i]);
-                    }
+                    mediaControl.getChildren().addAll(selectBox.getEllipse());
+                    mediaControl.getChildren().addAll(selectBox.getCenterEllipse());
                     root.getChildren().add(mediaControl);
                 });
                 event.setDropCompleted(true);

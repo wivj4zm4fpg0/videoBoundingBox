@@ -32,12 +32,12 @@ class MediaControl extends BorderPane {
     MediaControl(final MediaPlayer mp, Media media, Stage stage, SelectBox selectBox) {
         this.mp = mp;
         mp.setVolume(0);
-        setStyle("-fx-background-color: #bfc2c7;");
+        setStyle("-fx-background-color: #bfc2c7");
         MediaView mediaView = new MediaView(mp);
         mediaView.setPreserveRatio(true);
         Pane mvPane = new Pane();
         mvPane.getChildren().add(mediaView);
-        mvPane.setStyle("-fx-background-color: black;");
+        mvPane.setStyle("-fx-background-color: black");
         setCenter(mvPane);
 
         HBox mediaBar = new HBox();
@@ -67,18 +67,18 @@ class MediaControl extends BorderPane {
             }
         });
         mp.currentTimeProperty().addListener(ov -> {
-            mediaView.setFitWidth(mvPane.getWidth());
-            mediaView.setFitHeight(mvPane.getHeight());
-            if (mvPane.getHeight() / mvPane.getWidth() < mediaHeight / mediaWidth) {
-                mediaView.setX((mvPane.getWidth() - mvPane.getHeight() * mediaWidth / mediaHeight) / 2);
-            } else {
-                mediaView.setX(0);
-            }
-            if (mvPane.getWidth() / mvPane.getHeight() < mediaWidth / mediaHeight) {
-                mediaView.setY((mvPane.getHeight() - mvPane.getWidth() * mediaHeight / mediaWidth) / 2);
-            } else {
-                mediaView.setY(0);
-            }
+//            mediaView.setFitWidth(mvPane.getWidth());
+//            mediaView.setFitHeight(mvPane.getHeight());
+//            if (mvPane.getHeight() / mvPane.getWidth() < mediaHeight / mediaWidth) {
+//                mediaView.setX((mvPane.getWidth() - mvPane.getHeight() * mediaWidth / mediaHeight) / 2);
+//            } else {
+//                mediaView.setX(0);
+//            }
+//            if (mvPane.getWidth() / mvPane.getHeight() < mediaWidth / mediaHeight) {
+//                mediaView.setY((mvPane.getHeight() - mvPane.getWidth() * mediaHeight / mediaWidth) / 2);
+//            } else {
+//                mediaView.setY(0);
+//            }
             updateValues();
         });
 
