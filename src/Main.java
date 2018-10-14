@@ -48,6 +48,16 @@ public class Main extends Application {
                     mediaPlayer.setOnReady(primaryStage::sizeToScene);
                     mediaPlayer.setAutoPlay(true);
                     MediaControl mediaControl = new MediaControl(mediaPlayer, media, primaryStage, selectBox);
+                    mediaControl.setOnKeyPressed(keyEvent -> {
+                        switch (keyEvent.getCode().toString()) {
+                            case "U":
+                                mediaPlayer.setRate(mediaPlayer.getRate() + 0.5);
+                                break;
+                            case "D":
+                                mediaPlayer.setRate(mediaPlayer.getRate() - 0.5);
+                        }
+                        System.out.println("change fps = " + mediaPlayer.getRate());
+                    });
 
                     mediaControl.getChildren().add(selectBox.getRectangle());
                     for (int i = 0; i < selectBox.getEllipse().length; i++) {
