@@ -8,19 +8,13 @@ class SelectBox {
     private Ellipse centerEllipse[];
     private boolean isInsideEllipse[];
     private boolean isInsideCenterEllipse[];
-    private double maxWidth;
-    private double maxHeight;
-    private double clickX;
-    private double clickY;
-    private boolean isInside;
+    private double maxWidth = 0;
+    private double maxHeight = 0;
+    private double clickX = 0;
+    private double clickY = 0;
+    private boolean isInside = false;
 
     SelectBox() {
-        maxWidth = 0;
-        maxHeight = 0;
-        clickX = 0;
-        clickY = 0;
-        isInside = false;
-
         double radius = 3;
         double init = -radius * 2;
         rectangle = new Rectangle(init, init, 0, 0);
