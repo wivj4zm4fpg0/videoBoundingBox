@@ -97,7 +97,11 @@ class MediaControl extends BorderPane {
             duration = mp.getMedia().getDuration();
             mediaWidth = media.getWidth();
             mediaHeight = media.getHeight();
-            stage.setWidth(mediaWidth + 0);
+            if (System.getProperty("os.name").contains("Windows")) {
+                stage.setWidth(mediaWidth + 14);
+            } else if (System.getProperty("os.name").contains("Linux")) {
+                stage.setWidth(mediaWidth + 0);
+            }
             stage.setHeight(mediaHeight + 72);
             updateValues();
             selectBox.init(mediaWidth, mediaHeight);
