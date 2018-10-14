@@ -16,8 +16,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        SelectBox selectBox = new SelectBox();
-
         Pane root = new Pane();
         Scene scene = new Scene(root, 320, 240);
 
@@ -41,28 +39,13 @@ public class Main extends Application {
                 board.getFiles().forEach(file -> {
                     // reset
                     root.getChildren().removeAll();
-                    selectBox.resetRect();
                     // create media player
                     Media media = new Media("file:///" + file.getAbsolutePath().replace('\\', '/'));
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
                     mediaPlayer.setOnReady(primaryStage::sizeToScene);
                     mediaPlayer.setAutoPlay(true);
-                    MediaControl mediaControl = new MediaControl(mediaPlayer, media, primaryStage, selectBox);
-                    mediaControl.setOnKeyPressed(keyEvent -> {
-                        switch (keyEvent.getCode().toString()) {
-                            case "U":
-                                mediaPlayer.setRate(mediaPlayer.getRate() + 0.5);
-                                System.out.println("speed = " + mediaPlayer.getRate());
-                                break;
-                            case "D":
-                                mediaPlayer.setRate(mediaPlayer.getRate() - 0.5);
-                                System.out.println("speed = " + mediaPlayer.getRate());
-                        }
-                    });
+                    MediaControl mediaControl = new MediaControl(mediaPlayer, media, primaryStage);
 
-                    mediaControl.getChildren().add(selectBox.getRectangle());
-                    mediaControl.getChildren().addAll(selectBox.getEllipse());
-                    mediaControl.getChildren().addAll(selectBox.getCenterEllipse());
                     root.getChildren().add(mediaControl);
                 });
                 event.setDropCompleted(true);

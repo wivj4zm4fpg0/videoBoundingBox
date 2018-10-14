@@ -28,8 +28,9 @@ class MediaControl extends BorderPane {
     private Label playTime;
     private double mediaWidth;
     private double mediaHeight;
+    private SelectBox selectBox = new SelectBox();
 
-    MediaControl(final MediaPlayer mp, Media media, Stage stage, SelectBox selectBox) {
+    MediaControl(final MediaPlayer mp, Media media, Stage stage) {
         this.mp = mp;
         mp.setVolume(0);
         setStyle("-fx-background-color: #bfc2c7");
@@ -192,6 +193,22 @@ class MediaControl extends BorderPane {
                 centerEllipse[i].setOnMouseDragged(event -> selectBox.setSize(event.getX(), -1));
             }
         }
+
+        setOnKeyPressed(event -> {
+            switch (event.getCode().toString()) {
+                case "U":
+                    mp.setRate(mp.getRate() + 0.5);
+                    System.out.println("speed = " + mp.getRate());
+                    break;
+                case "D":
+                    mp.setRate(mp.getRate() - 0.5);
+                    System.out.println("speed = " + mp.getRate());
+            }
+        });
+
+        getChildren().add(selectBox.getRectangle());
+        getChildren().addAll(selectBox.getEllipse());
+        getChildren().addAll(selectBox.getCenterEllipse());
     }
 
     private void updateValues() {
