@@ -12,8 +12,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,9 +26,11 @@ class MediaControl extends BorderPane {
     private Label playTime;
     private double mediaWidth;
     private double mediaHeight;
-    private SelectBox selectBox = new SelectBox();
 
     MediaControl(final MediaPlayer mp, Media media, Stage stage) {
+
+        SelectBox selectBox = new SelectBox();
+
         this.mp = mp;
         mp.setVolume(0);
         setStyle("-fx-background-color: #bfc2c7");
@@ -140,59 +140,12 @@ class MediaControl extends BorderPane {
         playTime = new Label();
         playTime.setMinWidth(65);
         mediaBar.getChildren().add(playTime);
-
         setBottom(mediaBar);
 
-        mediaView.setOnMousePressed(event -> {
-            selectBox.setPosition(event.getX(), event.getY());
-            selectBox.setInside(event.getX(), event.getY());
-            if (!selectBox.isInside()) {
-                selectBox.resetRect();
-            }
-        });
+        mediaView.setOnMousePressed(event -> selectBox.mousePress(event.getX(), event.getY()));
         mediaView.setOnMouseReleased(event -> selectBox.print());
-        mediaView.setOnMouseDragged(event -> {
-            if (!selectBox.getIsInsideEllipse()) {
-                if (selectBox.isInside()) {
-                    selectBox.moveBox(event.getX(), event.getY());
-                } else {
-                    selectBox.setSize(event.getX(), event.getY());
-                }
-            }
-        });
-
-        Ellipse[] ellipse = selectBox.getEllipse();
-        Ellipse[] centerEllipse = selectBox.getCenterEllipse();
-        for (int i = 0; i < ellipse.length; i++) {
-            int finalI = i;
-            ellipse[i].setOnMouseEntered(event -> {
-                selectBox.setIsInsideEllipse(finalI, true, 0);
-                selectBox.setEllipseFill(finalI, Color.AQUA, 0);
-            });
-            ellipse[i].setOnMouseExited(event -> {
-                selectBox.setIsInsideEllipse(finalI, false, 0);
-                selectBox.setEllipseFill(finalI, Color.WHITE, 0);
-            });
-            ellipse[i].setOnMousePressed(event -> selectBox.setPosition(ellipse[3 - finalI].getCenterX(), ellipse[3 - finalI].getCenterY()));
-            ellipse[i].setOnMouseDragged(event -> selectBox.setSize(event.getX(), event.getY()));
-            ellipse[i].setOnMouseReleased(event -> selectBox.print());
-
-            centerEllipse[i].setOnMouseEntered(event -> {
-                selectBox.setIsInsideEllipse(finalI, true, 1);
-                selectBox.setEllipseFill(finalI, Color.AQUA, 1);
-            });
-            centerEllipse[i].setOnMouseExited(event -> {
-                selectBox.setIsInsideEllipse(finalI, false, 1);
-                selectBox.setEllipseFill(finalI, Color.WHITE, 1);
-            });
-            centerEllipse[i].setOnMousePressed(event -> selectBox.setPosition(centerEllipse[(finalI + 2) % 4].getCenterX(), centerEllipse[(finalI + 2) % 4].getCenterY()));
-            centerEllipse[i].setOnMouseReleased(event -> selectBox.print());
-            if (finalI % 2 == 0) {
-                centerEllipse[i].setOnMouseDragged(event -> selectBox.setSize(-1, event.getY()));
-            } else {
-                centerEllipse[i].setOnMouseDragged(event -> selectBox.setSize(event.getX(), -1));
-            }
-        }
+        mediaView.setOnMouseDragged(event -> selectBox.mouseDrag(event.getX(), event.getY()));
+        getChildren().addAll(selectBox.get());
 
         setOnKeyPressed(event -> {
             switch (event.getCode().toString()) {
@@ -205,10 +158,6 @@ class MediaControl extends BorderPane {
                     System.out.println("speed = " + mp.getRate());
             }
         });
-
-        getChildren().add(selectBox.getRectangle());
-        getChildren().addAll(selectBox.getEllipse());
-        getChildren().addAll(selectBox.getCenterEllipse());
     }
 
     private void updateValues() {
