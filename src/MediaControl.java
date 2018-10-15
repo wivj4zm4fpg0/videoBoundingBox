@@ -104,10 +104,10 @@ class MediaControl extends BorderPane {
                 stage.setWidth(mediaWidth + 0);
             }
             stage.setHeight(mediaHeight + 72);
-            updateValues();
             selectBox.init(mediaWidth, mediaHeight);
             System.out.println("\nWidth = " + mediaWidth + ", Height = " + mediaHeight +
                     ", Time = " + media.getDuration().toSeconds() + ", Path = " + media.getSource());
+            updateValues();
         });
 
         mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
