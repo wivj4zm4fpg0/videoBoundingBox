@@ -38,7 +38,7 @@ public class Main extends Application {
             if (board.hasFiles()) {
                 board.getFiles().forEach(file -> {
                     // reset
-                    root.getChildren().removeAll();
+                    root.getChildren().clear();
                     // create media player
                     Media media = new Media("file:///" + file.getAbsolutePath().replace('\\', '/'));
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
