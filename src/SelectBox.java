@@ -3,11 +3,13 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.util.LinkedList;
+
 class SelectBox extends Rectangle {
-    private Ellipse ellipse[];
-    private Ellipse centerEllipse[];
-    private boolean isInsideEllipse[];
-    private boolean isInsideCenterEllipse[];
+    private Ellipse ellipse[] = new Ellipse[4];
+    private Ellipse centerEllipse[] = new Ellipse[4];
+    private boolean isInsideEllipse[] = new boolean[4];
+    private boolean isInsideCenterEllipse[] = new boolean[4];
     private double maxWidth = 0;
     private double maxHeight = 0;
     private double clickX = 0;
@@ -15,17 +17,16 @@ class SelectBox extends Rectangle {
     private boolean isInside = false;
     private static final double radius = 3;
     private static final double initPos = -radius * 2;
+    private LinkedList<History> histories = new LinkedList<>();
+    private int historyIndex = 0;
 
     SelectBox() {
         super(initPos, initPos, 0, 0);
+        histories.add(historyIndex++, new History(getX(), getY(), getWidth(), getHeight()));
         setFill(null);
         setStroke(Color.RED);
         setStrokeWidth(1);
 
-        ellipse = new Ellipse[4];
-        isInsideEllipse = new boolean[4];
-        centerEllipse = new Ellipse[4];
-        isInsideCenterEllipse = new boolean[4];
         for (int i = 0; i < ellipse.length; i++) {
             ellipse[i] = new Ellipse(initPos, initPos, radius, radius);
             ellipse[i].setFill(Color.WHITE);
@@ -230,7 +231,7 @@ class SelectBox extends Rectangle {
         }
     }
 
-    Shape[] get() {
+    Shape[] getAll() {
         return new Shape[]{this, ellipse[0], ellipse[1], ellipse[2], ellipse[3],
                 centerEllipse[0], centerEllipse[1], centerEllipse[2], centerEllipse[3]};
     }
@@ -252,5 +253,71 @@ class SelectBox extends Rectangle {
                 setSize(x, y);
             }
         }
+    }
+
+    void save() {
+        if (histories.size() > historyIndex) {
+            histories.subList(historyIndex, histories.size()).clear();
+        }
+        histories.add(historyIndex++, new History(getX(), getY(), getWidth(), getHeight()));
+        int HISTORY_SIZE = 16;
+        if (historyIndex == HISTORY_SIZE + 1) {
+            histories.remove(0);
+            historyIndex = HISTORY_SIZE;
+        }
+    }
+
+    void redo() {
+        if (historyIndex == 1) {
+            return;
+        }
+        historyIndex--;
+        setX(histories.get(historyIndex - 1).getX());
+        setY(histories.get(historyIndex - 1).getY());
+        setWidth(histories.get(historyIndex - 1).getWidth());
+        setHeight(histories.get(historyIndex - 1).getHeight());
+        update();
+    }
+
+    void undo() {
+        if (historyIndex == histories.size()) {
+            return;
+        }
+        setX(histories.get(historyIndex).getX());
+        setY(histories.get(historyIndex).getY());
+        setWidth(histories.get(historyIndex).getWidth());
+        setHeight(histories.get(historyIndex).getHeight());
+        historyIndex++;
+        update();
+    }
+}
+
+class History {
+    private double x;
+    private double y;
+    private double width;
+    private double height;
+
+    History(double x, double y, double width, double height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
+    double getX() {
+        return x;
+    }
+
+    double getY() {
+        return y;
+    }
+
+    double getWidth() {
+        return width;
+    }
+
+    double getHeight() {
+        return height;
     }
 }
