@@ -1,9 +1,12 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -16,29 +19,28 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Pane root = new Pane();
-        Scene scene = new Scene(root, 320, 240);
+        Pane mainMedia = new Pane();
 
-        root.getChildren().add(new Rectangle(320, 240, Color.WHITE));
+        mainMedia.getChildren().add(new Rectangle(340, 240, Color.WHITE));
         Label label = new Label("Please drag and drop the video");
         label.setFont(new Font("Arial", 20));
         label.setLayoutX(20);
         label.setLayoutY(100);
-        root.getChildren().add(label);
+        mainMedia.getChildren().add(label);
 
-        root.setOnDragOver(event -> {
+        mainMedia.setOnDragOver(event -> {
             Dragboard board = event.getDragboard();
             if (board.hasFiles()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
         });
 
-        root.setOnDragDropped(event -> {
+        mainMedia.setOnDragDropped(event -> {
             Dragboard board = event.getDragboard();
             if (board.hasFiles()) {
                 board.getFiles().forEach(file -> {
                     // reset
-                    root.getChildren().clear();
+                    mainMedia.getChildren().clear();
                     // create media player
                     Media media = new Media("file:///" + file.getAbsolutePath().replace('\\', '/'));
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -46,13 +48,20 @@ public class Main extends Application {
                     mediaPlayer.setAutoPlay(true);
                     MediaControl mediaControl = new MediaControl(mediaPlayer, media, primaryStage);
 
-                    root.getChildren().add(mediaControl);
+                    mainMedia.getChildren().add(mediaControl);
                 });
                 event.setDropCompleted(true);
             } else {
                 event.setDropCompleted(false);
             }
         });
+
+        VBox vBox = new VBox();
+        MenuBar menuBar = new MenuBar();
+        Menu menuFile = new Menu("File");
+        menuBar.getMenus().addAll(menuFile);
+        vBox.getChildren().addAll(menuBar, mainMedia);
+        Scene scene = new Scene(vBox, 320, 240);
 
         primaryStage.setTitle("BoundingBoxVideo");
         primaryStage.setScene(scene);
