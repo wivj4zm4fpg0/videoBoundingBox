@@ -1,8 +1,7 @@
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
@@ -21,11 +20,12 @@ public class Main extends Application {
 
         Pane mainMedia = new Pane();
 
-        mainMedia.getChildren().add(new Rectangle(340, 240, Color.WHITE));
+        mainMedia.getChildren().add(new Rectangle(320, 240, Color.WHITE));
         Label label = new Label("Please drag and drop the video");
         label.setFont(new Font("Arial", 20));
         label.setLayoutX(20);
-        label.setLayoutY(100);
+        label.setLayoutY(105);
+        label.setAlignment(Pos.CENTER);
         mainMedia.getChildren().add(label);
 
         mainMedia.setOnDragOver(event -> {
@@ -56,16 +56,13 @@ public class Main extends Application {
             }
         });
 
-        VBox vBox = new VBox();
-        MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        menuBar.getMenus().addAll(menuFile);
-        vBox.getChildren().addAll(menuBar, mainMedia);
-        Scene scene = new Scene(vBox, 320, 240);
+        VBox root = new VBox();
+        root.getChildren().addAll(mainMedia);
+
+        Scene scene = new Scene(root, 320, 240);
 
         primaryStage.setTitle("BoundingBoxVideo");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

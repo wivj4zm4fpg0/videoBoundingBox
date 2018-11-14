@@ -99,7 +99,8 @@ class MediaControl extends BorderPane {
             mediaWidth = media.getWidth();
             mediaHeight = media.getHeight();
             if (System.getProperty("os.name").contains("Windows")) {
-                stage.setWidth(mediaWidth + 14);
+//                stage.setWidth(mediaWidth + 14);
+                stage.setWidth(mediaWidth + 0);
             } else if (System.getProperty("os.name").contains("Linux")) {
                 stage.setWidth(mediaWidth + 0);
             }
