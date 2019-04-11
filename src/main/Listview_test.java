@@ -4,11 +4,9 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,6 +21,9 @@ public class Listview_test extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(new Button("next"), new Button("back"));
+
         ListView<String> listView = new ListView<>();
         ObservableList<String> listRecord = FXCollections.observableArrayList();
         listView.setItems(listRecord);
@@ -52,13 +53,11 @@ public class Listview_test extends Application {
             File file = directoryChooser.showDialog(primaryStage);
             if (file != null) {
                 listRecord.clear();
-                System.out.println(file.getPath());
                 File[] files = new File(file.getPath()).listFiles();
                 assert files != null;
 
                 for (File entry : files) {
-                    if (entry.isFile()) {
-                        System.out.println(entry);
+                    if (entry.isFile() && entry.getPath().endsWith(".mp4")) {
                         listRecord.add(entry.getName());
                     }
                 }
@@ -70,6 +69,7 @@ public class Listview_test extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(menuBar);
         borderPane.setCenter(listView);
+        borderPane.setBottom(hBox);
         primaryStage.setScene(new Scene(borderPane, 640, 480));
         primaryStage.show();
     }
