@@ -1,12 +1,13 @@
 package main;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -50,14 +51,23 @@ public class Main extends Application {
             }
         });
 
-        VBox playerPain = new VBox();
-        playerPain.getChildren().addAll(mainMedia);
+        ObservableList<String> listRecord = FXCollections.observableArrayList();
 
-        HBox root = new HBox();
-        root.getChildren().addAll(playerPain);
+        //スリーペイン----------------------
+        BorderPane threePane = new BorderPane();
+        threePane.setCenter(mainMedia);
+        threePane.setLeft(new LeftPain());
+        threePane.setRight(new RightPain(listRecord));
+        //スリーペイン終了------------------
+
+        //メインペイン----------------------------------
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(new MainMenuBar(primaryStage, listRecord));
+        borderPane.setCenter(threePane);
+        //メインペイン終了---------------------------
 
         primaryStage.setTitle("BoundingBoxVideo");
-        primaryStage.setScene(new Scene(root, 640, 480));
+        primaryStage.setScene(new Scene(borderPane, 1150, 560));
         primaryStage.show();
     }
 

@@ -1,4 +1,4 @@
-package main;
+package test;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class Listview_test extends Application {
+public class ListViewTest extends Application {
 
     public static void main(String[] args) {
         launch(args);

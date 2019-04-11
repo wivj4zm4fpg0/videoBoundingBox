@@ -1,24 +1,14 @@
 package main;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-public class Parameter_test extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        VBox root = new VBox();
+class LeftPain extends VBox {
+    LeftPain() {
         HBox x_pos = new HBox();
         HBox y_pos = new HBox();
         HBox width_set = new HBox();
@@ -39,9 +29,6 @@ public class Parameter_test extends Application {
         radioButton1.setToggleGroup(toggleGroup);
         HBox radio_box = new HBox();
         radio_box.getChildren().addAll(radioButton, radioButton1);
-        root.getChildren().addAll(x_pos, y_pos, width_set, height_set, radio_box);
-        primaryStage.setTitle("parameter_test");
-        primaryStage.setScene(new Scene(root, 640, 480));
-        primaryStage.show();
+        this.getChildren().addAll(x_pos, y_pos, width_set, height_set, radio_box);
     }
 }

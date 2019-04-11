@@ -1,8 +1,8 @@
-package main;
+package test;
 
 import java.io.*;
 
-public class Write_test {
+public class WriteTest {
     public static void main(String[] args) {
         try {
             File file = new File("test.txt");

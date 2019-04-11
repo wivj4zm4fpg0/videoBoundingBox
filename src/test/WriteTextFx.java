@@ -1,4 +1,4 @@
-package main;
+package test;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.*;
 
-public class Write_text_fx extends Application {
+public class WriteTextFx extends Application {
 
     public static void main(String[] args) {
         launch(args);
