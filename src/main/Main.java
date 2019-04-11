@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -49,13 +50,14 @@ public class Main extends Application {
             }
         });
 
-        VBox root = new VBox();
-        root.getChildren().addAll(mainMedia);
+        VBox playerPain = new VBox();
+        playerPain.getChildren().addAll(mainMedia);
 
-        Scene scene = new Scene(root, 640, 480);
+        HBox root = new HBox();
+        root.getChildren().addAll(playerPain);
 
         primaryStage.setTitle("BoundingBoxVideo");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
     }
 
