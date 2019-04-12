@@ -7,12 +7,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import static main.Main.dirPath;
+import static main.Main.openedVideo;
 
 class RightPain extends BorderPane {
     RightPain(CenterPain centerPain, ObservableList<String> listRecord) {
         ListView<String> listView = new ListView<>();
         listView.setItems(listRecord);
-        listView.setOnMouseClicked(event -> centerPain.readVideo(dirPath + "\\"+ listView.getSelectionModel().getSelectedItem()));
+        listView.setOnMouseClicked(event -> {
+            openedVideo = listView.getSelectionModel().getSelectedItem();
+            centerPain.readVideo(dirPath + "\\" + openedVideo);
+        });
 
         HBox right_bottom_buttons = new HBox();
         Button nextButton = new Button("next");

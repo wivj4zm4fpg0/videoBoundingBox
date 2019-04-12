@@ -12,6 +12,7 @@ public class Main extends Application {
     static String dirPath = null;
     static LeftPain leftPain = new LeftPain();
     static String annotationPath = null;
+    static String openedVideo = null;
 
     @Override
     public void start(Stage primaryStage) {
