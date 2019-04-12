@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-import static main.Main.annotationPath;
-import static main.Main.dirPath;
+import static main.Main.*;
 
 class MainMenuBar extends MenuBar {
     MainMenuBar(Stage primaryStage, ObservableList<String> listRecord) {
@@ -28,6 +27,7 @@ class MainMenuBar extends MenuBar {
             if (file != null && file.getPath().endsWith(".txt")) {
                 System.out.println(file.getPath());
                 annotationPath = file.getPath();
+                annotationLabel.setText(annotationPath);
             }
         });
 

@@ -6,8 +6,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
-import static main.Main.dirPath;
-import static main.Main.openedVideo;
+import static main.Main.*;
 
 class RightPain extends BorderPane {
     RightPain(CenterPain centerPain, ObservableList<String> listRecord) {
@@ -16,6 +15,7 @@ class RightPain extends BorderPane {
         listView.setOnMouseClicked(event -> {
             openedVideo = listView.getSelectionModel().getSelectedItem();
             centerPain.readVideo(dirPath + "\\" + openedVideo);
+            videoLabel.setText(openedVideo);
         });
 
         HBox right_bottom_buttons = new HBox();
@@ -28,6 +28,7 @@ class RightPain extends BorderPane {
             if (nextIndex != listView.getItems().size()) {
                 centerPain.readVideo(dirPath + "\\" + listView.getItems().get(nextIndex));
                 listView.getSelectionModel().select(nextIndex);
+                videoLabel.setText(listView.getSelectionModel().getSelectedItem());
             }
         });
 
@@ -36,6 +37,7 @@ class RightPain extends BorderPane {
             if (backIndex != -1) {
                 centerPain.readVideo(dirPath + "\\" + listView.getItems().get(backIndex));
                 listView.getSelectionModel().select(backIndex);
+                videoLabel.setText(listView.getSelectionModel().getSelectedItem());
             }
         });
 

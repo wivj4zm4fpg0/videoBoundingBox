@@ -4,15 +4,18 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    static String dirPath = null;
+    static String dirPath = "";
+    static String annotationPath = "";
+    static String openedVideo = "";
+    static Label annotationLabel = new Label("ファイルが選択されていません");
+    static Label videoLabel = new Label("ファイルが選択されていません");
     static LeftPain leftPain = new LeftPain();
-    static String annotationPath = null;
-    static String openedVideo = null;
 
     @Override
     public void start(Stage primaryStage) {

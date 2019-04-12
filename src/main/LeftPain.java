@@ -6,8 +6,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.*;
 
-import static main.Main.annotationPath;
-import static main.Main.openedVideo;
+import static main.Main.*;
 
 class LeftPain extends VBox {
     private TextField x_field = new TextField();
@@ -73,7 +72,7 @@ class LeftPain extends VBox {
             }
         });
 
-        this.getChildren().addAll(x_pos, y_pos, width_set, height_set, radio_box, start_set, end_set, pushButton);
+        this.getChildren().addAll(annotationLabel, videoLabel, x_pos, y_pos, width_set, height_set, radio_box, start_set, end_set, pushButton);
     }
 
     void setParam(double x, double y, double width, double height) {
