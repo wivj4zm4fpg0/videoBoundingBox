@@ -65,7 +65,7 @@ class LeftPain extends VBox {
                 long lineNumber = CountNumberOfTextLines(annotationPath);
                 File file = new File(annotationPath);
                 PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
-                printWriter.println((lineNumber - 1) + " " + openedVideo + " " + actionValue + " " + startFieldHour + ":" + startFieldMinute + ":" + startFieldSecond + " " + endFieldHour + ":" + endFieldMinute + ":" + endFieldSecond + " " + x_field.getText() + " " + y_field.getText() + " " + width_field.getText() + " " + height_field.getText());
+                printWriter.println((lineNumber - 1) + " " + openedVideo + " " + actionValue + " " + startFieldHour.getText() + ":" + startFieldMinute.getText() + ":" + startFieldSecond.getText() + " " + endFieldHour.getText() + ":" + endFieldMinute.getText() + ":" + endFieldSecond.getText() + " " + x_field.getText() + " " + y_field.getText() + " " + width_field.getText() + " " + height_field.getText());
                 printWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
