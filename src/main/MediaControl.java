@@ -14,7 +14,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 class MediaControl extends BorderPane {
@@ -29,7 +28,7 @@ class MediaControl extends BorderPane {
     private double mediaWidth;
     private double mediaHeight;
 
-    MediaControl(final MediaPlayer mp, Media media, Stage stage) {
+    MediaControl(final MediaPlayer mp, Media media) {
 
         SelectBox selectBox = new SelectBox();
 
@@ -69,21 +68,7 @@ class MediaControl extends BorderPane {
                 mp.pause();
             }
         });
-        mp.currentTimeProperty().addListener(ov -> {
-//            mediaView.setFitWidth(mvPane.getWidth());
-//            mediaView.setFitHeight(mvPane.getHeight());
-//            if (mvPane.getHeight() / mvPane.getWidth() < mediaHeight / mediaWidth) {
-//                mediaView.setX((mvPane.getWidth() - mvPane.getHeight() * mediaWidth / mediaHeight) / 2);
-//            } else {
-//                mediaView.setX(0);
-//            }
-//            if (mvPane.getWidth() / mvPane.getHeight() < mediaWidth / mediaHeight) {
-//                mediaView.setY((mvPane.getHeight() - mvPane.getWidth() * mediaHeight / mediaWidth) / 2);
-//            } else {
-//                mediaView.setY(0);
-//            }
-            updateValues();
-        });
+        mp.currentTimeProperty().addListener(ov -> updateValues());
 
         mp.setOnPlaying(() -> {
             if (stopRequested) {
@@ -100,14 +85,6 @@ class MediaControl extends BorderPane {
             duration = mp.getMedia().getDuration();
             mediaWidth = media.getWidth();
             mediaHeight = media.getHeight();
-            if (System.getProperty("os.name").contains("Windows")) {
-                stage.setWidth(mediaWidth + 14);
-//                stage.setWidth(mediaWidth + 0);
-                stage.setHeight(mediaHeight + 88);
-            } else if (System.getProperty("os.name").contains("Linux")) {
-                stage.setWidth(mediaWidth + 0);
-                stage.setHeight(mediaHeight + 72);
-            }
             selectBox.init(mediaWidth, mediaHeight);
             System.out.println("\nWidth = " + mediaWidth + ", Height = " + mediaHeight +
                     ", Time = " + media.getDuration().toSeconds() + ", Path = " + media.getSource());

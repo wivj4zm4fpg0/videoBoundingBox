@@ -20,7 +20,6 @@ public class WriteTextFx extends Application {
         Button button = new Button("click");
         root.setCenter(button);
         button.setOnAction(event -> {
-
             try {
                 File file = new File("test.txt");
                 PrintWriter printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
@@ -34,6 +33,5 @@ public class WriteTextFx extends Application {
         primaryStage.setTitle("Test");
         primaryStage.setScene(new Scene(root, 640, 480));
         primaryStage.show();
-
     }
 }

@@ -22,7 +22,13 @@ public class ListViewTest extends Application {
     @Override
     public void start(Stage primaryStage) {
         HBox hBox = new HBox();
-        hBox.getChildren().addAll(new Button("next"), new Button("back"));
+        Button nextButton = new Button("next");
+        Button backButton = new Button("back");
+        hBox.getChildren().addAll(nextButton, backButton);
+
+        nextButton.setOnAction(event -> {
+
+        });
 
         ListView<String> listView = new ListView<>();
         ObservableList<String> listRecord = FXCollections.observableArrayList();

@@ -7,6 +7,8 @@ import javafx.scene.shape.Shape;
 
 import java.util.LinkedList;
 
+import static main.Main.leftPain;
+
 class SelectBox extends Rectangle {
     private Ellipse[] ellipse = new Ellipse[4];
     private Ellipse[] centerEllipse = new Ellipse[4];
@@ -17,8 +19,8 @@ class SelectBox extends Rectangle {
     private double clickX = 0;
     private double clickY = 0;
     private boolean isInside = false;
-    private static final double radius = 3;
-    private static final double initPos = -radius * 2;
+    private static final double radius = 6;
+    private static final double initPos = -1000;
     private LinkedList<History> histories = new LinkedList<>();
     private int historyIndex = 0;
 
@@ -146,6 +148,7 @@ class SelectBox extends Rectangle {
     void print() {
         System.out.println("x = " + (int) getX() + ", y = " + (int) getY()
                 + ", width = " + (int) getWidth() + ", height = " + (int) getHeight());
+        leftPain.setParam(getX(), getY(), getWidth(), getHeight());
     }
 
     private void resetRect() {
