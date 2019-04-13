@@ -16,9 +16,11 @@ import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 
+import static main.Main.*;
+
 class MediaControl extends BorderPane {
 
-    private MediaPlayer mp;
+    MediaPlayer mp;
     private final boolean repeat = false;
     private boolean stopRequested = false;
     private boolean atEndOfMedia = false;
@@ -28,11 +30,14 @@ class MediaControl extends BorderPane {
     private double mediaWidth;
     private double mediaHeight;
 
-    MediaControl(final MediaPlayer mp, Media media) {
+    MediaControl(String path) {
 
         SelectBox selectBox = new SelectBox();
 
-        this.mp = mp;
+        Media media = new Media("file:///" + path.replace('\\', '/'));
+
+        mp = new MediaPlayer(media);
+        mp.setAutoPlay(true);
         mp.setVolume(0);
         setStyle("-fx-background-color: #bfc2c7");
         MediaView mediaView = new MediaView(mp);
@@ -155,7 +160,12 @@ class MediaControl extends BorderPane {
     private void updateValues() {
         if (playTime != null && timeSlider != null) {
             Platform.runLater(() -> {
-                Duration currentTime = mp.getCurrentTime();
+                Duration currentTime;
+                try {
+                    currentTime = mp.getCurrentTime();
+                } catch (NullPointerException ignored) {
+                    currentTime = new Duration(0);
+                }
                 playTime.setText(formatTime(currentTime, duration));
                 timeSlider.setDisable(duration.isUnknown());
                 if (!timeSlider.isDisabled()
@@ -167,7 +177,7 @@ class MediaControl extends BorderPane {
         }
     }
 
-    private static String formatTime(Duration elapsed, Duration duration) {
+    private String formatTime(Duration elapsed, Duration duration) {
         int intElapsed = (int) Math.floor(elapsed.toSeconds());
         int elapsedHours = intElapsed / (60 * 60);
         if (elapsedHours > 0) {
@@ -175,6 +185,10 @@ class MediaControl extends BorderPane {
         }
         int elapsedMinutes = intElapsed / 60;
         int elapsedSeconds = intElapsed - elapsedHours * 60 * 60 - elapsedMinutes * 60;
+
+        currentHours = elapsedHours;
+        currentMinute = elapsedMinutes;
+        currentSecond = elapsedSeconds;
 
         if (duration.greaterThan(Duration.ZERO)) {
             int intDuration = (int) Math.floor(duration.toSeconds());

@@ -50,8 +50,27 @@ class LeftPain extends VBox {
         endFieldMinute.setPrefWidth(textFieldSize);
         TextField endFieldSecond = new TextField("00");
         endFieldSecond.setPrefWidth(textFieldSize);
-        start_set.getChildren().addAll(new Label("start"), startFieldHour, new Label(":"), startFieldMinute, new Label(":"), startFieldSecond);
-        end_set.getChildren().addAll(new Label("  end  "), endFieldHour, new Label(":"), endFieldMinute, new Label(":"), endFieldSecond);
+        Button startIncrement = new Button("+");
+        Button startDecrement = new Button("-");
+        Button endIncrement = new Button("+");
+        Button endDecrement = new Button("-");
+        start_set.getChildren().addAll(new Label("start"), startFieldHour, new Label(":"), startFieldMinute, new Label(":"), startFieldSecond, startIncrement, startDecrement);
+        end_set.getChildren().addAll(new Label("  end  "), endFieldHour, new Label(":"), endFieldMinute, new Label(":"), endFieldSecond, endIncrement, endDecrement);
+
+        startIncrement.setOnAction(event -> timeIncrement(startFieldHour, startFieldMinute, startFieldSecond));
+        startDecrement.setOnAction(event -> timeDecrement(startFieldHour, startFieldMinute, startFieldSecond));
+        endIncrement.setOnAction(event -> timeIncrement(endFieldHour, endFieldMinute, endFieldSecond));
+        endDecrement.setOnAction(event -> timeDecrement(endFieldHour, endFieldMinute, endFieldSecond));
+
+        Button timePull = new Button("timePull");
+        timePull.setOnAction(event -> {
+            startFieldHour.setText(String.format("%02d", currentHours));
+            startFieldMinute.setText(String.format("%02d", currentMinute));
+            startFieldSecond.setText(String.format("%02d", currentSecond));
+            endFieldHour.setText(String.format("%02d", currentHours));
+            endFieldMinute.setText(String.format("%02d", currentMinute));
+            endFieldSecond.setText(String.format("%02d", currentSecond));
+        });
 
         Button pushButton = new Button("Push");
         pushButton.setOnAction(event -> {
@@ -72,7 +91,7 @@ class LeftPain extends VBox {
             }
         });
 
-        this.getChildren().addAll(annotationLabel, videoLabel, x_pos, y_pos, width_set, height_set, radio_box, start_set, end_set, pushButton);
+        this.getChildren().addAll(annotationLabel, videoLabel, x_pos, y_pos, width_set, height_set, radio_box, start_set, end_set, timePull, pushButton);
     }
 
     void setParam(double x, double y, double width, double height) {
@@ -122,4 +141,45 @@ class LeftPain extends VBox {
         return lineCount;
     }
 
+    private void timeIncrement(TextField hourField, TextField minuteField, TextField secondField) {
+        int hour = Integer.parseInt(hourField.getText());
+        int minute = Integer.parseInt(minuteField.getText());
+        int second = Integer.parseInt(secondField.getText());
+
+        second++;
+        if (second >= 60) {
+            minute++;
+            second = 0;
+        }
+        if (minute >= 60) {
+            hour++;
+            minute = 0;
+        }
+
+        hourField.setText(String.format("%02d", hour));
+        minuteField.setText(String.format("%02d", minute));
+        secondField.setText(String.format("%02d", second));
+    }
+
+    private void timeDecrement(TextField hourField, TextField minuteField, TextField secondField) {
+        int hour = Integer.parseInt(hourField.getText());
+        int minute = Integer.parseInt(minuteField.getText());
+        int second = Integer.parseInt(secondField.getText());
+
+        if (!(second == 0 && minute == 0 && hour == 0)) {
+            second--;
+            if (second <= -1) {
+                minute--;
+                second = 59;
+            }
+            if (minute <= -1) {
+                hour--;
+                minute = 59;
+            }
+        }
+
+        hourField.setText(String.format("%02d", hour));
+        minuteField.setText(String.format("%02d", minute));
+        secondField.setText(String.format("%02d", second));
+    }
 }

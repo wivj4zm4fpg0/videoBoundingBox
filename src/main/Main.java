@@ -16,6 +16,10 @@ public class Main extends Application {
     static Label annotationLabel = new Label("ファイルが選択されていません");
     static Label videoLabel = new Label("ファイルが選択されていません");
     static LeftPain leftPain = new LeftPain();
+    static int currentHours = 0;
+    static int currentMinute = 0;
+    static int currentSecond = 0;
+    static CenterPain centerPain = new CenterPain();
 
     @Override
     public void start(Stage primaryStage) {
@@ -24,10 +28,9 @@ public class Main extends Application {
 
         //スリーペイン----------------------
         BorderPane threePane = new BorderPane();
-        CenterPain centerPain = new CenterPain();
         threePane.setCenter(centerPain);
         threePane.setLeft(leftPain);
-        threePane.setRight(new RightPain(centerPain, listRecord));
+        threePane.setRight(new RightPain(listRecord));
         //スリーペイン終了------------------
 
         //メインペイン----------------------------------
@@ -37,7 +40,7 @@ public class Main extends Application {
         //メインペイン終了---------------------------
 
         primaryStage.setTitle("BoundingBoxVideo");
-        primaryStage.setScene(new Scene(borderPane, 1150, 560));
+        primaryStage.setScene(new Scene(borderPane, 1200, 560));
         primaryStage.show();
     }
 

@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import static main.Main.*;
 
 class RightPain extends BorderPane {
-    RightPain(CenterPain centerPain, ObservableList<String> listRecord) {
+    RightPain(ObservableList<String> listRecord) {
         ListView<String> listView = new ListView<>();
         listView.setItems(listRecord);
         listView.setOnMouseClicked(event -> {
@@ -22,6 +22,7 @@ class RightPain extends BorderPane {
         Button nextButton = new Button("next");
         Button backButton = new Button("back");
         right_bottom_buttons.getChildren().addAll(nextButton, backButton);
+
 
         nextButton.setOnAction(event -> {
             int nextIndex = listView.getFocusModel().getFocusedIndex() + 1;
