@@ -19,24 +19,24 @@ class SelectBox extends Rectangle {
     private double clickX = 0;
     private double clickY = 0;
     private boolean isInside = false;
-    private static final double radius = 6;
-    private static final double initPos = -1000;
+    private static final double RADIUS = 6;
+    private static final double INIT_POS = -1000;
     private LinkedList<History> histories = new LinkedList<>();
     private int historyIndex = 0;
 
     SelectBox() {
-        super(initPos, initPos, 0, 0);
+        super(INIT_POS, INIT_POS, 0, 0);
         histories.add(historyIndex++, new History(getX(), getY(), getWidth(), getHeight()));
         setFill(null);
         setStroke(Color.RED);
         setStrokeWidth(1);
 
         for (int i = 0; i < ellipse.length; i++) {
-            ellipse[i] = new Ellipse(initPos, initPos, radius, radius);
+            ellipse[i] = new Ellipse(INIT_POS, INIT_POS, RADIUS, RADIUS);
             ellipse[i].setFill(Color.WHITE);
             ellipse[i].setStroke(Color.BLACK);
             ellipse[i].setStrokeWidth(1);
-            centerEllipse[i] = new Ellipse(initPos, initPos, radius, radius);
+            centerEllipse[i] = new Ellipse(INIT_POS, INIT_POS, RADIUS, RADIUS);
             centerEllipse[i].setFill(Color.WHITE);
             centerEllipse[i].setStroke(Color.BLACK);
             centerEllipse[i].setStrokeWidth(1);
