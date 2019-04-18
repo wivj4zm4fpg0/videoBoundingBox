@@ -20,6 +20,8 @@ public class Main extends Application {
     static int currentMinute = 0;
     static int currentSecond = 0;
     static CenterPain centerPain = new CenterPain();
+    static AnnotationArea annotationArea = null;
+    static Stage annotationStage = null;
 
     @Override
     public void start(Stage primaryStage) {

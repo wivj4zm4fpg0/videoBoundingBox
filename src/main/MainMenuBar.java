@@ -1,6 +1,7 @@
 package main;
 
 import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,12 +23,20 @@ class MainMenuBar extends MenuBar {
 
         menuItem.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
+            fileChooser.setTitle("アノテーションファイルを開く");
             File file = fileChooser.showOpenDialog(primaryStage);
             if (file != null && file.getPath().endsWith(".txt")) {
                 System.out.println(file.getPath());
                 annotationPath = file.getPath();
                 annotationLabel.setText(annotationPath);
+                if (annotationStage == null) {
+                    annotationStage = new Stage();
+                    annotationStage.show();
+                    annotationArea = new AnnotationArea(annotationPath);
+                    annotationStage.setScene(new Scene(annotationArea, 600, 400));
+                } else {
+                    annotationArea.reload(annotationPath);
+                }
             }
         });
 

@@ -89,6 +89,7 @@ class LeftPain extends VBox {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            annotationArea.reload(annotationPath);
         });
 
         this.getChildren().addAll(annotationLabel, videoLabel, x_pos, y_pos, width_set, height_set, radio_box, start_set, end_set, timePull, pushButton);
