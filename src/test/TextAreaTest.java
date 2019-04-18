@@ -20,6 +20,7 @@ public class TextAreaTest extends Application {
     public void start(Stage primaryStage) {
         Pane pane = new Pane();
         TextArea textArea = new TextArea();
+        textArea.clear();
         try {
             Scanner s = new Scanner(new File("test.txt")).useDelimiter("\n");
             while (s.hasNext()) {
@@ -34,6 +35,7 @@ public class TextAreaTest extends Application {
         }
         textArea.setPrefSize(400, 400);
         pane.getChildren().addAll(textArea);
+        textArea.setEditable(false);
 
         primaryStage.setScene(new Scene(pane, 400, 400));
         primaryStage.show();
