@@ -130,8 +130,8 @@ class MediaControl extends BorderPane {
 
         mediaView.setOnMousePressed(event -> selectBox.mousePress(event.getX(), event.getY()));
         mediaView.setOnMouseReleased(event -> {
-            selectBox.print();
             selectBox.save();
+            selectBox.print();
         });
         mediaView.setOnMouseDragged(event -> selectBox.mouseDrag(event.getX(), event.getY()));
         getChildren().addAll(selectBox.getAll());
@@ -147,11 +147,11 @@ class MediaControl extends BorderPane {
                     System.out.println("speed = " + mp.getRate());
                     break;
                 case "Z":
-                    selectBox.redo();
+                    selectBox.undo();
                     selectBox.print();
                     break;
                 case "Y":
-                    selectBox.undo();
+                    selectBox.redo();
                     selectBox.print();
             }
         });

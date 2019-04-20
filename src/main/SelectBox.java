@@ -23,10 +23,11 @@ class SelectBox extends Rectangle {
     private static final double INIT_POS = -1000;
     private LinkedList<History> histories = new LinkedList<>();
     private int historyIndex = 0;
+    private static final int HISTORY_SIZE = 16;
 
     SelectBox() {
         super(INIT_POS, INIT_POS, 0, 0);
-        histories.add(historyIndex++, new History(getX(), getY(), getWidth(), getHeight()));
+        histories.add(historyIndex, new History(getX(), getY(), getWidth(), getHeight()));
         setFill(null);
         setStroke(Color.RED);
         setStrokeWidth(1);
@@ -56,7 +57,10 @@ class SelectBox extends Rectangle {
             });
             ellipse[i].setOnMousePressed(event -> setPosition(ellipse[3 - finalI].getCenterX(), ellipse[3 - finalI].getCenterY()));
             ellipse[i].setOnMouseDragged(event -> setSize(event.getX(), event.getY()));
-            ellipse[i].setOnMouseReleased(event -> print());
+            ellipse[i].setOnMouseReleased(event -> {
+                save();
+                print();
+            });
 
             centerEllipse[i].setOnMouseEntered(event -> {
                 setIsInsideEllipse(finalI, true, 1);
@@ -67,7 +71,10 @@ class SelectBox extends Rectangle {
                 setEllipseFill(finalI, Color.WHITE, 1);
             });
             centerEllipse[i].setOnMousePressed(event -> setPosition(centerEllipse[(finalI + 2) % 4].getCenterX(), centerEllipse[(finalI + 2) % 4].getCenterY()));
-            centerEllipse[i].setOnMouseReleased(event -> print());
+            centerEllipse[i].setOnMouseReleased(event -> {
+                save();
+                print();
+            });
             if (finalI % 2 == 0) {
                 centerEllipse[i].setOnMouseDragged(event -> setSize(-1, event.getY()));
             } else {
@@ -261,38 +268,38 @@ class SelectBox extends Rectangle {
     }
 
     void save() {
-        if (histories.size() > historyIndex) {
-            histories.subList(historyIndex, histories.size()).clear();
+        if (histories.size() - 1 > historyIndex) {
+            histories.subList(historyIndex + 1, histories.size()).clear();
         }
-        histories.add(historyIndex++, new History(getX(), getY(), getWidth(), getHeight()));
-        int HISTORY_SIZE = 16;
+        historyIndex++;
+        histories.add(historyIndex, new History(getX(), getY(), getWidth(), getHeight()));
         if (historyIndex == HISTORY_SIZE + 1) {
             histories.remove(0);
             historyIndex = HISTORY_SIZE;
         }
     }
 
-    void redo() {
-        if (historyIndex == 1) {
+    void undo() {
+        if (historyIndex == 0) {
             return;
         }
         historyIndex--;
-        setX(histories.get(historyIndex - 1).getX());
-        setY(histories.get(historyIndex - 1).getY());
-        setWidth(histories.get(historyIndex - 1).getWidth());
-        setHeight(histories.get(historyIndex - 1).getHeight());
-        update();
-    }
-
-    void undo() {
-        if (historyIndex == histories.size()) {
-            return;
-        }
         setX(histories.get(historyIndex).getX());
         setY(histories.get(historyIndex).getY());
         setWidth(histories.get(historyIndex).getWidth());
         setHeight(histories.get(historyIndex).getHeight());
+        update();
+    }
+
+    void redo() {
+        if (historyIndex == histories.size() - 1) {
+            return;
+        }
         historyIndex++;
+        setX(histories.get(historyIndex).getX());
+        setY(histories.get(historyIndex).getY());
+        setWidth(histories.get(historyIndex).getWidth());
+        setHeight(histories.get(historyIndex).getHeight());
         update();
     }
 }
