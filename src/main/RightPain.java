@@ -29,7 +29,8 @@ class RightPain extends BorderPane {
             if (nextIndex != listView.getItems().size()) {
                 centerPain.readVideo(dirPath + "\\" + listView.getItems().get(nextIndex));
                 listView.getSelectionModel().select(nextIndex);
-                videoLabel.setText(listView.getSelectionModel().getSelectedItem());
+                openedVideo = listView.getSelectionModel().getSelectedItem();
+                videoLabel.setText(openedVideo);
             }
         });
 
@@ -38,7 +39,8 @@ class RightPain extends BorderPane {
             if (backIndex != -1) {
                 centerPain.readVideo(dirPath + "\\" + listView.getItems().get(backIndex));
                 listView.getSelectionModel().select(backIndex);
-                videoLabel.setText(listView.getSelectionModel().getSelectedItem());
+                openedVideo = listView.getSelectionModel().getSelectedItem();
+                videoLabel.setText(openedVideo);
             }
         });
 
