@@ -34,8 +34,10 @@ class MainMenuBar extends MenuBar {
                     annotationStage.show();
                     annotationArea = new AnnotationArea(annotationPath);
                     annotationStage.setScene(new Scene(annotationArea, 600, 400));
+                    annotationStage.setTitle(annotationPath);
                 } else {
                     annotationArea.reload(annotationPath);
+                    annotationStage.setTitle(annotationPath);
                 }
             }
         });
