@@ -1,7 +1,6 @@
 package main;
 
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -29,16 +28,6 @@ class MainMenuBar extends MenuBar {
                 System.out.println(file.getPath());
                 annotationPath = file.getPath();
                 annotationLabel.setText(annotationPath);
-                if (annotationStage == null) {
-                    annotationStage = new Stage();
-                    annotationStage.show();
-                    annotationArea = new AnnotationArea(annotationPath);
-                    annotationStage.setScene(new Scene(annotationArea, 600, 400));
-                    annotationStage.setTitle(annotationPath);
-                } else {
-                    annotationArea.reload(annotationPath);
-                    annotationStage.setTitle(annotationPath);
-                }
             }
         });
 
