@@ -20,10 +20,8 @@ import static main.Main.*;
 
 class MediaControl extends BorderPane {
 
-    MediaPlayer mp;
     private final boolean repeat = false;
     private boolean stopRequested = false;
-    private boolean atEndOfMedia = false;
     private Duration duration;
     private Slider timeSlider;
     private Label playTime;
@@ -31,8 +29,6 @@ class MediaControl extends BorderPane {
     private double mediaHeight;
 
     MediaControl(String path) {
-
-        SelectBox selectBox = new SelectBox();
 
         Media media = new Media("file:///" + path.replace('\\', '/'));
 

@@ -8,8 +8,6 @@ import javafx.scene.shape.Rectangle;
 
 class CenterPain extends BorderPane {
 
-    private MediaControl mediaControl = null;
-
     CenterPain() {
 
         this.setCenter(new Rectangle(640, 480, Color.WHITE));
@@ -34,10 +32,6 @@ class CenterPain extends BorderPane {
 
     void readVideo(String path) {
         this.getChildren().clear();
-        if (mediaControl != null) {
-            mediaControl.mp = null;
-        }
-        mediaControl = new MediaControl(path);
-        this.setCenter(mediaControl);
+        this.setCenter(new MediaControl(path));
     }
 }

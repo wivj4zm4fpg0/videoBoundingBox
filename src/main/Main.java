@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -20,6 +21,9 @@ public class Main extends Application {
     static int currentMinute = 0;
     static int currentSecond = 0;
     static CenterPain centerPain = new CenterPain();
+    static MediaPlayer mp = null;
+    static SelectBox selectBox = new SelectBox();
+    static boolean atEndOfMedia = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -37,6 +41,46 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(new MainMenuBar(primaryStage, listRecord));
         borderPane.setCenter(threePane);
+        borderPane.setOnKeyPressed(event -> {
+            switch (event.getCode().toString()) {
+                case "U":
+                    mp.setRate(mp.getRate() + 0.5);
+                    System.out.println("speed = " + mp.getRate());
+                    break;
+                case "D":
+                    mp.setRate(mp.getRate() - 0.5);
+                    System.out.println("speed = " + mp.getRate());
+                    break;
+                case "Z":
+                    selectBox.undo();
+                    selectBox.print();
+                    break;
+                case "Y":
+                    selectBox.redo();
+                    selectBox.print();
+                    break;
+                case "B":
+                case "M":
+                case "N":
+                    MediaPlayer.Status status = mp.getStatus();
+
+                    if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
+                        // don't do anything in these states
+                        return;
+                    }
+
+                    if (status == MediaPlayer.Status.PAUSED || status == MediaPlayer.Status.READY || status == MediaPlayer.Status.STOPPED) {
+                        // rewind the movie if we're sitting at the end
+                        if (atEndOfMedia) {
+                            mp.seek(mp.getStartTime());
+                            atEndOfMedia = false;
+                        }
+                        mp.play();
+                    } else {
+                        mp.pause();
+                    }
+            }
+        });
         //メインペイン終了---------------------------
 
         primaryStage.setTitle("BoundingBoxVideo");
