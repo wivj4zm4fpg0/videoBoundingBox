@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -124,12 +125,22 @@ class MediaControl extends BorderPane {
         mediaBar.getChildren().add(playTime);
         setBottom(mediaBar);
 
-        mediaView.setOnMousePressed(event -> selectBox.mousePress(event.getX(), event.getY()));
-        mediaView.setOnMouseReleased(event -> {
-            selectBox.save();
-            selectBox.print();
+        mediaView.setOnMousePressed(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                selectBox.mousePress(event.getX(), event.getY());
+            }
         });
-        mediaView.setOnMouseDragged(event -> selectBox.mouseDrag(event.getX(), event.getY()));
+        mediaView.setOnMouseReleased(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                selectBox.save();
+                selectBox.print();
+            }
+        });
+        mediaView.setOnMouseDragged(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                selectBox.mouseDrag(event.getX(), event.getY());
+            }
+        });
         getChildren().addAll(selectBox.getAll());
 
         setOnKeyPressed(event -> {

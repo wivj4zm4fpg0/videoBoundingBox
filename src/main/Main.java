@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -41,6 +42,27 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(new MainMenuBar(primaryStage, listRecord));
         borderPane.setCenter(threePane);
+        borderPane.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                MediaPlayer.Status status = mp.getStatus();
+
+                if (status == MediaPlayer.Status.UNKNOWN || status == MediaPlayer.Status.HALTED) {
+                    // don't do anything in these states
+                    return;
+                }
+
+                if (status == MediaPlayer.Status.PAUSED || status == MediaPlayer.Status.READY || status == MediaPlayer.Status.STOPPED) {
+                    // rewind the movie if we're sitting at the end
+                    if (atEndOfMedia) {
+                        mp.seek(mp.getStartTime());
+                        atEndOfMedia = false;
+                    }
+                    mp.play();
+                } else {
+                    mp.pause();
+                }
+            }
+        });
         borderPane.setOnKeyPressed(event -> {
             switch (event.getCode().toString()) {
                 case "U":
